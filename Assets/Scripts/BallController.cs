@@ -8,7 +8,7 @@ public class BallController : MonoBehaviour {
     private float speed;
     bool started;
     bool gameOver;
-
+    public GameObject particle;
     Rigidbody rb;
 
     void Awake()
@@ -22,7 +22,7 @@ public class BallController : MonoBehaviour {
         gameOver = false;
 	}
 	
-	// Update is called once per frame
+
 	void Update () {
         if (!started){
             if (Input.GetMouseButtonDown(0) || Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) {
@@ -36,12 +36,12 @@ public class BallController : MonoBehaviour {
 
 
         if (!Physics.Raycast(transform.position, Vector3.down, 1f)) {
-            gameOver = true;
+            GameOver();
             //making the ball fall
             //Debug.Log("game over");
             rb.velocity = new Vector3(0, -25f, 0);
-            Camera.main.GetComponent<CameraFollow>().gameOver = true;
-        }
+            }
+
         if (!gameOver && Input.GetMouseButtonDown(0) || Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) {
             SwitchDirection();
         }
@@ -54,5 +54,22 @@ public class BallController : MonoBehaviour {
         else if (rb.velocity.x > 0) {
             rb.velocity = new Vector3(0, 0, speed);
         }
+    }
+
+    void GameOver()
+    {
+        gameOver = true;
+        Camera.main.GetComponent<CameraFollow>().gameOver = true;
+        GameObject platformSpawner = GameObject.Find("PlatformSpawner");
+        platformSpawner.GetComponent<PlatformSpawner>().gameOver = true;
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Diamond") {
+            GameObject part = Instantiate(particle, other.gameObject.transform.position, Quaternion.identity) as GameObject;
+            Destroy(other.gameObject);
+            Destroy(part, 1f);
+        } 
     }
 }
