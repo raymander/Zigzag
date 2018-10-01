@@ -28,8 +28,9 @@ public class BallController : MonoBehaviour {
             if (Input.GetMouseButtonDown(0) || Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) {
                 rb.velocity = new Vector3(speed, 0, 0);
                 started = true;
-
+                GameManager.instance.StartGame();
             }
+
         }
 
         Debug.DrawRay(transform.position, Vector3.down, Color.red);
@@ -62,6 +63,7 @@ public class BallController : MonoBehaviour {
         Camera.main.GetComponent<CameraFollow>().gameOver = true;
         GameObject platformSpawner = GameObject.Find("PlatformSpawner");
         platformSpawner.GetComponent<PlatformSpawner>().gameOver = true;
+        GameManager.instance.GameOver();
     }
 
     void OnTriggerEnter(Collider other)

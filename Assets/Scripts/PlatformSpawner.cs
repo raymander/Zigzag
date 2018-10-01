@@ -18,8 +18,12 @@ public class PlatformSpawner : MonoBehaviour {
         //for (int i = 0; i < 20;i++) {
         //    SpawnPlatforms();
         //}
-        InvokeRepeating("SpawnPlatforms", 2f, 0.2f);
+
 	}
+
+    public void StartSpawningPlatforms() {
+        InvokeRepeating("SpawnPlatforms", 0.1f, 0.2f);
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -48,7 +52,7 @@ public class PlatformSpawner : MonoBehaviour {
         int rand = Random.Range(0, 4);
         if (rand < 1)
         {
-            Instantiate(diamond, new Vector3(pos.x, pos.y + 1.5f, pos.z), diamond.transform.rotation);
+            Instantiate(diamond, new Vector3(pos.x, pos.y + 1f, pos.z), diamond.transform.rotation);
         }
        
     }
