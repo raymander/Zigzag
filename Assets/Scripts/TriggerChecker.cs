@@ -26,5 +26,6 @@ public class TriggerChecker : MonoBehaviour {
         GetComponentInParent<Rigidbody>().isKinematic = false;
         Destroy(transform.parent.gameObject, 2f);
 
+
     }
 }
